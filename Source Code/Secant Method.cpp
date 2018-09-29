@@ -40,10 +40,10 @@ int main()
 
     while(abs(n-m)>accuracy)
     {
-        x=(m+n)/2;
+        x=(m*fun(n)-n*fun(m))/(float)(fun(n)-fun(m));
         if(fun(x)==0) break;
-        else if(fun(m)*fun(x)<0) n=x;
-        else m=x;
+        m=n;
+        n=x;
     }
 
     cout<<"The root of the equation is: "<<x<<endl;
