@@ -1,2 +1,2 @@
-# Numerical-Method
-LAB Report &amp; Source CODE
+# Numerical_Method
+LAB Report & Source CODE
