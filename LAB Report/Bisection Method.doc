@@ -1,0 +1,136 @@
+Problem Statement :  Implement  the Bisection Method to find a real root of Polynomial Equations. 
+
+Problem Analysis :  
+(i)The Method :  The bisection method in mathematics is a root-finding method  that repeatedly bisects an interval and then selects a subinterval in which a root must lie for further processing.
+The method is applicable for numerically solving the equation f(x) = 0 for the real variable x, where f is a continuous function defined on an interval [a, b] and where f(a) and f(b) have opposite signs. In this case a and b are said to bracket a root since, by the intermediate value theorem, the continuous function f must have at least one root in the interval (a, b).
+At each step the method divides the interval in two by computing the midpoint xi = (a+b)/2 of the interval and the value of the function f(xi) at  that point. Unless xi is itself a root (which is very unlikely, but possible) there are now only two possibilities: either f(a) and f(xi) have opposite signs and bracket a root, or f(xi) and f(b) have opposite signs and bracket a root. The method selects the subinterval that is guaranteed to be a bracket as the new interval to be used in the next step. In this way an interval that contains a zero of f is reduced in width by 50% at each step. The process is continued until the interval is sufficiently small.
+Explicitly, if f(a) and f(xi) have opposite signs, then the method sets xi  as the new value for b, and if f(b) and f(xi) have opposite signs then the method sets xi  as the new a. (If f(xi)=0 then xi  may be taken as the solution and the process stops.) In both cases, the new f(a) and f(b) have opposite signs, so the method is applicable to this smaller interval. 
+
+(ii)Iteration Tasks :  It can be easily programmed using the following computational steps:
+1. Choose two real numbers a and b such that f(a)f(b)<0.
+2. Set xi  = (a+b)/2.
+3. (a) If  f(a)f(xi)<0, the root lies in the interval (a,xi). Then, set b=xi and go to step 2 above.
+    (b) If  f(a)f(xi)>0, the root lies in the interval (xi,b). Then, set a=xi and go to step 2.
+    (c) If  f(a)f(xi)=0, it means that xi is a root of the equation f(x)=0 and the computation may           be terminated.
+
+Algorithm :
+Suppose we want to find the solution to the equation f (x) = 0 , where f is continuous.
+Given a function f (x) continuous on an interval [a0 , b0] and satisfying  f (a )f (b ) < 0.
+For i = 0, 1, 2, … until termination do:
+	1. Start.
+	2. Input degree i and (i+1) co-efficient  in the following equation f(x) = 0.
+	3. Input the value of precession and calculate the value of  E which is error criterion. 
+	4. Input two values for “a” and “b”.
+	5. If f(a) * f(b)>0, a and b input is not correct and go to step 4.
+ 	6. Set x := (a+b)/2 and calculate f(x). 
+	7. If f(x)= 0 or absolute value of f(x) <= E , then x is the required root , go to step 8.
+	    Else if  f(a)*f(b) < 0 set b := x , go to step 6. 
+	    Else  set a := x ,  go to step 6.
+ 	8. Print x. 
+	9. End.
+
+Source Code :
+#include<bits/stdc++.h>
+#define accuracy 0.0001
+using namespace std;
+
+int degree;
+double m,n,x,z,sum;
+int arr[10];
+
+double fun(double x)
+{
+   sum=0;
+   int i; z=degree;
+   for(i=0;i<=degree;i++)
+   {
+       sum+=arr[i]*pow(x,z);
+       z--;
+   }
+   return sum;
+}
+
+int main()
+{
+    int i;
+
+    cout <<"Enter the value of the highest degree of the equation:" << endl;
+    cin >> degree;
+
+    cout <<"Enter the co-efficients:" <<endl;
+    for(i=0;i<=degree;i++)
+        cin >> arr[i];
+
+    cout << "Enter two real numbers assuming the root is between them" << endl;
+    cin >> m >> n ;
+
+    while(fun(m)*fun(n)>=0)
+    {
+        cout << "Enter two real numbers assuming the root is between them(again)" << endl;
+        cin >> m >> n ;
+    }
+
+    while(abs(n-m)>accuracy)
+    {
+        x=(m+n)/2;
+        if(fun(x)==0) break;
+        else if(fun(m)*fun(x)<0) n=x;
+        else m=x;
+    }
+
+   printf("The root of the equation is %.4lf\n",x);
+   return 0;
+}
+
+Sample Input-Output :
+1. 
+	Enter the value of the highest degree of the equation:
+	7
+	Enter  the co-efficients:
+	1 1 1 1 1 1 1 1
+	Enter two real numbers assuming the root is between them
+	1 -2
+
+	The root of the equation is -1.000
+
+2.
+	Enter the value of the highest degree of the equation:
+	3
+	Enter  the co-efficients:
+	1 0 -1 -1
+	Enter two real numbers assuming the root is between them
+	1 2
+
+	The root of the equation is 1.3248
+
+3.
+	Enter the value of the highest degree of the equation:
+	3
+	Enter  the co-efficients:
+	1 1 1 7
+	Enter two real numbers assuming the root is between them
+	-2 -3
+
+	The root of the equation is -2.1049
+
+
+4.
+	Enter the value of the highest degree of the equation:
+	5
+	Enter  the co-efficients:
+	1 0 4 0 -2 1
+	Enter two real numbers assuming the root is between them
+	1 -1
+
+	The root of the equation is -0.8276
+
+Remarks :
+	a) The iteration using bisection method always produces a root, since the method brackets 	the  root between two values.
+	
+	b) As iterations are conducted, the length of the interval gets halved. So one can guarantee 	the  convergence in case of the solution of the equation.
+	
+	c) The Bisection Method is simple to program in a computer.
+	
+	d) Bisection method cannot be applied over an interval where there is a discontinuity & 	where 	the  function takes always values of the same sign.
+
+	e) The method fails to determine complex roots.
